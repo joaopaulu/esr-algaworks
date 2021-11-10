@@ -16,10 +16,9 @@ public class ConsultaCozinhaMain {
                 .run(args);
         CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
 
-        List<Cozinha> cozinhas = cadastroCozinha.listar();
+        Cozinha cozinha = cadastroCozinha.buscar(1L);
 
-        for(Cozinha cozinha : cozinhas){
-            System.out.println(cozinha.getNome());
-        }
+        System.out.println(cozinha.getNome());
+
     }
 }
