@@ -19,23 +19,23 @@ public class CozinhaController {
 
     @GetMapping
     public List<Cozinha> listar(){
-        return cozinhaRepository.todas();
+        return cozinhaRepository.listar();
     }
 
     @GetMapping("{id}")
     public Cozinha buscar(@PathVariable Long id){
-        return cozinhaRepository.porId(id);
+        return cozinhaRepository.buscar(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void adicionar(@RequestBody Cozinha cozinha){
-        cozinhaRepository.adicionar(cozinha);
+        cozinhaRepository.salvar(cozinha);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha){
-        Optional<Cozinha> cozinhaAtual = Optional.ofNullable(cozinhaRepository.porId(id));
+        Optional<Cozinha> cozinhaAtual = Optional.ofNullable(cozinhaRepository.buscar(id));
 
         return ResponseEntity.notFound().build();
     }
