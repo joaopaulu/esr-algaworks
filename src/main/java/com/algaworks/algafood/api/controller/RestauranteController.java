@@ -24,53 +24,58 @@ public class RestauranteController {
     private CadastroRestauranteService cadastroRestaurante;
 
     @GetMapping
-    public List<Restaurante> listar(){
+    public List<Restaurante> listar() {
         return restauranteRepository.listar();
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId){
+    public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteRepository.buscar(restauranteId);
-        if (restaurante != null){
+        if (restaurante != null) {
             return ResponseEntity.ok(restaurante);
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante){
-        try{
+    public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+        try {
             restaurante = cadastroRestaurante.salvar(restaurante);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
-        }catch (EntidadeNaoEncontradaException e){
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("/{cozinhaId}")
-    public ResponseEntity<Restaurante> atualizar(@PathVariable Long cozinhaId, @RequestBody Restaurante cozinha){
-        Restaurante cozinhaAtual = restauranteRepository.buscar(cozinhaId);
+    @PutMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+        try {
+            Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
 
-        if(cozinhaAtual != null) {
-            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+            if (restauranteAtual != null) {
+                BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
 
-            cozinhaAtual = cadastroRestaurante.salvar(cozinhaAtual);
-            return ResponseEntity.ok(cozinhaAtual);
+                restauranteAtual = cadastroRestaurante.salvar(restauranteAtual);
+                return ResponseEntity.ok(restauranteAtual);
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{cozinhaId}")
-    public ResponseEntity<Restaurante> remover(@PathVariable Long cozinhaId){
+    @DeleteMapping("/{restauranteId}")
+    public ResponseEntity<Restaurante> remover(@PathVariable Long restauranteId) {
         try {
-            cadastroRestaurante.excluir(cozinhaId);
+            cadastroRestaurante.excluir(restauranteId);
             return ResponseEntity.noContent().build();
 
-        }catch (EntidadeNaoEncontradaException e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
 
-        }catch (EntidadeEmUsoException e){
+        } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
