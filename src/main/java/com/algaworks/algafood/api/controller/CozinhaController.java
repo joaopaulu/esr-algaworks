@@ -1,6 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -34,9 +36,9 @@ public class CozinhaController {
         return new CozinhasXmlWrapper(cozinhaRepository.listar());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Cozinha> buscar(@PathVariable Long id){
-        Cozinha cozinha = cozinhaRepository.buscar(id);
+    @GetMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
+        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
         if (cozinha != null){
             return ResponseEntity.ok(cozinha);
         }
@@ -49,9 +51,9 @@ public class CozinhaController {
         return cadastroCozinha.salvar(cozinha);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha){
-        Cozinha cozinhaAtual = cozinhaRepository.buscar(id);
+    @PutMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
+        Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
 
         if(cozinhaAtual != null) {
             BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
@@ -61,19 +63,17 @@ public class CozinhaController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Cozinha> remover(@PathVariable Long id){
+    @DeleteMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId){
         try {
-            Cozinha cozinha = cozinhaRepository.buscar(id);
+            cadastroCozinha.excluir(cozinhaId);
+            return ResponseEntity.noContent().build();
 
-            if (cozinha != null) {
-                cozinhaRepository.remover(cozinha);
-
-                return ResponseEntity.noContent().build();
-            }
+        }catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
-        }catch (DataIntegrityViolationException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        }catch (EntidadeEmUsoException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 }
