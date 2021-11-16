@@ -2,7 +2,6 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
@@ -41,7 +40,7 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody Estado estado){
+    public Estado salvar(@RequestBody Estado estado) {
         return cadastroEstado.salvar(estado);
     }
 
@@ -63,7 +62,7 @@ public class EstadoController {
         try {
             cadastroEstado.excluir(estadoId);
             return ResponseEntity.noContent().build();
-        }catch (EntidadeNaoEncontradaException e){
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
 
         } catch (EntidadeEmUsoException e) {

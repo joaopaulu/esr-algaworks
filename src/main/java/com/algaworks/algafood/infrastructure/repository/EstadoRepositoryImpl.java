@@ -1,6 +1,5 @@
 package com.algaworks.algafood.infrastructure.repository;
 
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
