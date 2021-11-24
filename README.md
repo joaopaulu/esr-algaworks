@@ -103,3 +103,26 @@
 4.37. Conhecendo o nível 1 do RMM
 4.38. Conhecendo o nível 2 do RMM
 4.39. Conhecendo o nível 3 do RMM
+
+### 5. Super poderes do Spring Data JPA
+
+5.1. Implementando consultas JPQL em repositórios
+5.2. Conhecendo o projeto Spring Data JPA (SDJ)
+5.3. Criando um repositório com Spring Data JPA (SDJ)
+5.4. Refatorando o código do projeto para usar o repositório do SDJ
+5.5. Desafio: refatorando todos os repositórios para usar SDJ
+5.6. Criando consultas com query methods
+5.7. Usando as keywords para definir critérios de query methods
+5.8. Conhecendo os prefixos de query methods
+5.9. Usando queries JPQL customizadas com @Query
+5.10. Externalizando consultas JPQL para um arquivo XML
+5.11. Implementando um repositório SDJ customizado
+5.12. Implementando uma consulta dinâmica com JPQL
+5.13. Implementando uma consulta simples com Criteria API
+5.14. Adicionando restrições na cláusula where com Criteria API
+5.15. Tornando a consulta com Criteria API com filtros dinâmicos
+5.16. Conhecendo o uso do padrão Specifications (DDD) com SDJ
+5.17. Implementando Specifications com SDJ
+5.18. Criando uma fábrica de Specifications
+5.19. Injetando o próprio repositório na implementação customizada e a anotação @Lazy
+5.20. Estendendo o JpaRepository para customizar o repositório
