@@ -59,7 +59,8 @@ public class RestauranteController {
             Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).orElse(null);
 
             if (restauranteAtual != null) {
-                BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento");
+                BeanUtils.copyProperties(restaurante, restauranteAtual,
+                        "id", "formasPagamento","endereco", "dataCadastro");
 
                 restauranteAtual = cadastroRestaurante.salvar(restauranteAtual);
                 return ResponseEntity.ok(restauranteAtual);
@@ -90,7 +91,7 @@ public class RestauranteController {
                                              @RequestBody Map<String, Object> campos) {
         Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).orElse(null);
 
-        if(restauranteAtual == null){
+        if (restauranteAtual == null) {
             return ResponseEntity.notFound().build();
         }
         merge(campos, restauranteAtual);
