@@ -143,3 +143,18 @@
 6.12. Alterando a estratégia de fetching para Lazy Loading
 6.13. Alterando a estratégia de fetching para Eager Loading
 6.14. Resolvendo o Problema do N+1 com fetch join na JPQL
+
+### 7. Pool de conexões e Flyway
+
+7.1. Entendendo o funcionamento de um pool de conexões
+7.2. Conhecendo o Hikari: a solução padrão de pool de conexões no Spring Boot
+7.3. Configurando o pool de conexões do Hikari
+7.4. Schema generation em produção não é uma boa prática
+7.5. Flyway: ferramenta de versionamento de schemas de banco de dados
+7.6. Adicionando o Flyway no projeto e criando a primeira migração
+7.7. Evoluindo o banco de dados com novas migrações
+7.8. Criando migrações complexas com remanejamento de dados
+7.9. Criando migração a partir de DDL gerado por schema generation
+7.10. Adicionando dados de testes com callback do Flyway
+7.11. Reparando migrações com erros
+7.12. Desafio: Criando migrações e mapeando as entidades Pedido e ItemPedido
