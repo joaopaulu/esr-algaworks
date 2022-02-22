@@ -12,4 +12,6 @@ public class ExceptionHandlerConstant {
             "O parâmentro de URL '%s' recebeu o valor '%s', que é de um tipo inválido. Corrija e "
             + "informe um valor compatível com o tipo %s";
     public static final String RECURSO_INEXISTENTE = "O recurso %s, que você tentou acessaar, é inexistente.";
+    public static final String ERRO_INTERNO = "O correu um erro interno inesperado no sistema"
+            + "Tente novamente e se o problema persistir, entre em contato com o administrador do sistema.";
 }
