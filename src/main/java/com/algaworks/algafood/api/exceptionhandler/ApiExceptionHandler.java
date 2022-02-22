@@ -1,21 +1,45 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
+import static com.algaworks.algafood.constant.ExceptionHandlerConstant.*;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request
+    ) {
+        ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+
+        Problem problem = createProblemBuilder(status, problemType, CORPO_REQUISICAO_INVALIDO).build();
+
+        return handleExceptionInternal(
+                ex,
+                problem,
+                new HttpHeaders(),
+                status,
+                request
+        );
+    }
+
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> handleEntidadeNaoEncontradaException(
             EntidadeNaoEncontradaException ex,
@@ -42,11 +66,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             EntidadeEmUsoException ex,
             WebRequest request
     ) {
+        HttpStatus status = CONFLICT;
+        ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
         return handleExceptionInternal(
                 ex,
-                ex.getMessage(),
+                problem,
                 new HttpHeaders(),
-                CONFLICT,
+                status,
                 request
         );
     }
@@ -56,11 +86,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             NegocioException ex,
             WebRequest request
     ) {
+        HttpStatus status = BAD_REQUEST;
+        ProblemType problemType = ProblemType.ERRO_NEGOCIO;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
         return handleExceptionInternal(
                 ex,
-                ex.getMessage(),
+                problem,
                 new HttpHeaders(),
-                CONFLICT,
+                status,
                 request
         );
     }
