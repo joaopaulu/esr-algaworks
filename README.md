@@ -158,3 +158,34 @@
 7.10. Adicionando dados de testes com callback do Flyway
 7.11. Reparando migrações com erros
 7.12. Desafio: Criando migrações e mapeando as entidades Pedido e ItemPedido
+
+### 8. Tratamento e modelagem de erros da API
+8.1. Introdução ao tratamento e modelagem de erros
+8.2. Lançando exceções customizadas anotadas com @ResponseStatus
+8.3. Lançando exceções do tipo ResponseStatusException
+8.4. Estendendo ResponseStatusException
+8.5. Simplificando o código com o uso de @ResponseStatus em exceptions
+8.6. Desafio: refatorando os serviços REST
+8.7. Analisando os impactos da refatoração
+8.8. Criando a exception NegocioException
+8.9. Desafio: usando a exception NegocioException
+8.10. Afinando a granularidade e definindo a hierarquia das exceptions de negócios
+8.11. Desafio: lançando exceptions de granularidade fina
+8.12. Tratando exceções em nível de controlador com @ExceptionHandler
+8.13. Tratando exceções globais com @ExceptionHandler e @ControllerAdvi
+8.14. Desafio: implementando exception handle
+8.15. Criando um exception handler global com ResponseEntityExceptionHandle
+8.16. Customizando o corpo da resposta padrão de ResponseEntityExceptionHandler
+8.17. Conhecendo a RFC 7807 (Problem Details for HTTP APIs)
+8.18. Padronizando o formato de problemas no corpo de respostas com a RFC 780
+8.19. Desafio: usando o formato de problemas no corpo de resposta
+8.20. Customizando exception handlers de ResponseEntityExceptionHandle
+8.21. Tratando a exception InvalidFormatException na desserialização
+8.22. Habilitando erros na desserialização de propriedades inexistentes ou ignorada
+8.23. Desafio: tratando a PropertyBindingException na desserializaçã
+8.24. Lançando exception de desserialização na atualização parcial (PATCH)
+8.25. Desafio: tratando exception de parâmetro de URL inválid
+8.26. Desafio: tratando a exceção NoHandlerFoundExceptio
+8.27. Desafio: tratando outras exceções não capturada
+8.28. Estendendo o formato do problema para adicionar novas propriedades
+8.29. Desafio: estendendo o formato do problema
