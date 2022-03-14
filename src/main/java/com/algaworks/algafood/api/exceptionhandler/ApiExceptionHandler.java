@@ -29,22 +29,21 @@ import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
+import static com.algaworks.algafood.constant.ExceptionHandlerConstant.*;
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
-
-    public static final String MSG_ERRO_GENERICA_USUARIO_FINAL
-            = "Ocorreu um erro interno inesperado no sistema. Tente novamente e se "
-            + "o problema persistir, entre em contato com o administrador do sistema.";
 
     @Autowired
     private MessageSource messageSource;
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ProblemType problemType = ProblemType.DADOS_INVALIDOS;
-        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+        String detail = CAMPOS_INVALIDOS;
 
         BindingResult bindingResult = ex.getBindingResult();
 
@@ -83,11 +82,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex,
-                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(
+            NoHandlerFoundException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
 
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
-        String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.",
+        String detail = String.format(RECURSO_INEXISTENTE,
                 ex.getRequestURL());
 
         Problem problem = createProblemBuilder(status, problemType, detail)
@@ -98,8 +98,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
-                                                        HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(
+            TypeMismatchException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
 
         if (ex instanceof MethodArgumentTypeMismatchException) {
             return handleMethodArgumentTypeMismatch(
@@ -115,8 +116,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ProblemType problemType = ProblemType.PARAMETRO_INVALIDO;
 
-        String detail = String.format("O parâmetro de URL '%s' recebeu o valor '%s', "
-                        + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
+        String detail = String.format(PARAMENTRO_URL_INVALIDO,
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
         Problem problem = createProblemBuilder(status, problemType, detail)
@@ -127,8 +127,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
+
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
         if (rootCause instanceof InvalidFormatException) {
@@ -138,7 +140,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
-        String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
+
+        Problem problem = createProblemBuilder(status, problemType, CORPO_REQUISICAO_INVALIDO)
+                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+                .build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handlePropertyBinding(
+            PropertyBindingException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
+
+        String path = joinPath(ex.getPath());
+
+        ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+        String detail = String.format(PROPRIEDADE_INCOMPATIVEL, path);
 
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
@@ -147,30 +164,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
-    private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex,
-                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleInvalidFormat(
+            InvalidFormatException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
 
         String path = joinPath(ex.getPath());
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
-        String detail = String.format("A propriedade '%s' não existe. "
-                + "Corrija ou remova essa propriedade e tente novamente.", path);
-
-        Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
-                .build();
-
-        return handleExceptionInternal(ex, problem, headers, status, request);
-    }
-
-    private ResponseEntity<Object> handleInvalidFormat(InvalidFormatException ex,
-                                                       HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        String path = joinPath(ex.getPath());
-
-        ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
-        String detail = String.format("A propriedade '%s' recebeu o valor '%s', "
-                        + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
+        String detail = String.format(PROPRIEDADE_INCOMPATIVEL,
                 path, ex.getValue(), ex.getTargetType().getSimpleName());
 
         Problem problem = createProblemBuilder(status, problemType, detail)
@@ -224,8 +225,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-                                                             HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(
+            Exception ex, Object body, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
 
         if (body == null) {
             body = Problem.builder()
@@ -246,8 +248,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    private Problem.ProblemBuilder createProblemBuilder(HttpStatus status,
-                                                        ProblemType problemType, String detail) {
+    private Problem.ProblemBuilder createProblemBuilder(
+            HttpStatus status, ProblemType problemType, String detail) {
 
         return Problem.builder()
                 .timestamp(LocalDateTime.now())
