@@ -206,3 +206,22 @@
 9.19. Ajustando Exception Handler para adicionar mensagens de validação em nível de classe
 9.20. Executando processo de validação programaticamente
 9.21. Desafio: tratando a exception customizada de validações programáticas
+
+### 10. Testes de integração
+10.1. Introdução aos Testes de Integração e Testes de APIs
+10.2. Preparando o projeto para testes de integração
+10.3. Criando e rodando um teste de integração com Spring Boot, JUnit e AssertJ
+10.4. Escrevendo bons nomes de testes
+10.5. Desafio: escrevendo testes de integração
+10.6. Rodando os testes pelo Maven
+10.7. Configurando Maven Failsafe Plugin no projeto
+10.8. Implementando Testes de API com REST Assured e validando o código de status HTTP
+10.9. Validando o corpo da resposta HTTP
+10.10. Criando um método para fazer setup dos testes
+10.11. Entendendo o problema da ordem de execução dos testes
+10.12. Voltando o estado inicial do banco de dados para cada execução de teste com callback do Flyway
+10.13. Configurando um banco de testes e usando @TestPropertySource
+10.14. Limpando e populando o banco de dados de teste
+10.15. Testando endpoint passando parâmetro de URL
+10.16. Desafio: refatorando o código de testes
+10.17. Desafio: escrevendo testes de API
