@@ -3,7 +3,6 @@
 ## Conteúdo programático 📖
 
 ### 1. Introdução
-
 1.1. Introdução ao treinamento
 1.2. Como usar o suporte da AlgaWorks
 1.3. Por que desenvolver REST APIs?
@@ -11,7 +10,6 @@
 1.5. Preparando o ambiente de desenvolvimento: JDK e STS for Eclipse
 
 ### 2. Spring e Injeção de Dependências
-
 2.1. Por que aprender e usar Spring?
 2.2. Conhecendo o ecossistema Spring
 2.3. Spring vs Jakarta EE (Java EE)
@@ -105,7 +103,6 @@
 4.39. Conhecendo o nível 3 do RMM
 
 ### 5. Super poderes do Spring Data JPA
-
 5.1. Implementando consultas JPQL em repositórios
 5.2. Conhecendo o projeto Spring Data JPA (SDJ)
 5.3. Criando um repositório com Spring Data JPA (SDJ)
@@ -128,7 +125,6 @@
 5.20. Estendendo o JpaRepository para customizar o repositório
 
 ### 6. Explorando mais do JPA e Hibernate
-
 6.1. Mapeando relacionamento bidirecional com @OneToMany
 6.2. Mapeando relacionamento muitos-para-muitos com @ManyToMany
 6.3. Analisando o impacto do relacionamento muitos-para-muitos na REST API
@@ -145,7 +141,6 @@
 6.14. Resolvendo o Problema do N+1 com fetch join na JPQL
 
 ### 7. Pool de conexões e Flyway
-
 7.1. Entendendo o funcionamento de um pool de conexões
 7.2. Conhecendo o Hikari: a solução padrão de pool de conexões no Spring Boot
 7.3. Configurando o pool de conexões do Hikari
@@ -189,3 +184,44 @@
 8.27. Desafio: tratando outras exceções não capturada
 8.28. Estendendo o formato do problema para adicionar novas propriedades
 8.29. Desafio: estendendo o formato do problema
+
+### 9. Validações com Bean Validation
+9.1. Validação do modelo com Bean Validation
+9.2. Adicionando constraints e validando no controller com @Valid
+9.3. Desafio: tratando exception de violação de constraints de validação
+9.4. Estendendo o Problem Details para adicionar as propriedades com constraints violadas
+9.5. Conhecendo e adicionando mais constraints de validação no modelo
+9.6. Validando as associações de uma entidade em cascata
+9.7. Agrupando e restringindo constraints que devem ser usadas na validação
+9.8. Convertendo grupos de constraints para validação em cascata com @ConvertGroup
+9.10. Desafio: adicionando constraints de validação no modelo
+9.11. Customizando mensagens de validação na anotação da constraint
+9.12. Customizando e resolvendo mensagens de validação globais em Resource Bundle
+9.13. Desafio: customizando mensagens de validação
+9.14. Resolvendo mensagens de validação com Resource Bundle do Bean Validation
+9.15. Usando o Resource Bundle do Spring como Resource Bundle do Bean Validation
+9.16. Criando constraints de validação customizadas usando composição
+9.17. Criando constraints de validação customizadas com implementação de ConstraintValidator
+9.18. Criando constraints de validação customizadas em nível de classe
+9.19. Ajustando Exception Handler para adicionar mensagens de validação em nível de classe
+9.20. Executando processo de validação programaticamente
+9.21. Desafio: tratando a exception customizada de validações programáticas
+
+### 10. Testes de integração
+10.1. Introdução aos Testes de Integração e Testes de APIs
+10.2. Preparando o projeto para testes de integração
+10.3. Criando e rodando um teste de integração com Spring Boot, JUnit e AssertJ
+10.4. Escrevendo bons nomes de testes
+10.5. Desafio: escrevendo testes de integração
+10.6. Rodando os testes pelo Maven
+10.7. Configurando Maven Failsafe Plugin no projeto
+10.8. Implementando Testes de API com REST Assured e validando o código de status HTTP
+10.9. Validando o corpo da resposta HTTP
+10.10. Criando um método para fazer setup dos testes
+10.11. Entendendo o problema da ordem de execução dos testes
+10.12. Voltando o estado inicial do banco de dados para cada execução de teste com callback do Flyway
+10.13. Configurando um banco de testes e usando @TestPropertySource
+10.14. Limpando e populando o banco de dados de teste
+10.15. Testando endpoint passando parâmetro de URL
+10.16. Desafio: refatorando o código de testes
+10.17. Desafio: escrevendo testes de API

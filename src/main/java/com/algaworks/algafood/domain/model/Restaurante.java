@@ -1,9 +1,9 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.utils.Groups;
+import com.algaworks.algafood.core.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,9 +18,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 public class Restaurante {
 
@@ -33,6 +36,7 @@ public class Restaurante {
     @Column(nullable = false)
     private String nome;
 
+    @NotNull
     @PositiveOrZero
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
@@ -63,9 +67,24 @@ public class Restaurante {
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+    @ToString.Exclude
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
+    @ToString.Exclude
     private List<Produto> produtos = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Restaurante that = (Restaurante) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
