@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.algaworks.algafood.constant.CadastroRestauranteConstant.*;
 
 @Service
 public class CadastroRestauranteService {
-
-    private static final String MSG_RESTAURANTE_EM_USO
-            = "Restaurante de código %d não pode ser removida, pois está em uso";
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -22,6 +22,7 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroCozinhaService cadastroCozinha;
 
+    @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
 
@@ -32,6 +33,7 @@ public class CadastroRestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
+    @Transactional
     public void excluir(Long restauranteId) {
         try {
             restauranteRepository.deleteById(restauranteId);
