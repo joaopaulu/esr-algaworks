@@ -135,7 +135,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String path = joinPath(ex.getPath());
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
-        String detail = String.format(PROPRIEDADE_INCOMPATIVEL, path);
+        String detail = String.format(PROPRIEDADE_NAO_ENCONTRADA, path);
 
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
