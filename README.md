@@ -1,5 +1,9 @@
 # Especialista Spring REST
 
+<p  align="center">
+	 <img alt="Proffy" src=".github/especialista-spring-rest.png"/>  
+</p>
+
 ## Conteúdo programático 📖
 
 ### 1. Introdução
